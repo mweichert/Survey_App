@@ -1,6 +1,8 @@
 import './App.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Web3 from 'web3'
+import TruffleContact from '@truffle/contract'
 
 class App extends React.Component {
   constructor(props){
@@ -18,9 +20,60 @@ class App extends React.Component {
   }
 
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
       event.preventDefault()
       const data = this.state
+      let web3Provider = null;
+
+      if (window.ethereum) {
+        web3Provider = window.ethereum
+        try {
+          // Request account access
+          await window.ethereum.enable()
+        } catch (error) {
+          // User denied account access...
+          console.error("User denied account access")
+        }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        web3Provider = window.web3.currentProvider
+      }
+      // If no injected web3 instance is detected, fall back to Ganache
+      else {
+        web3Provider = new Web3.providers.HttpProvider('http://localhost:9545')
+      }
+
+      const getSurveyRewardContract = async () => {
+        const response = await fetch("SurveyReward.json")
+        const json = await response.json()
+        const SurveyReward = TruffleContact(json)
+        SurveyReward.setProvider(web3Provider)
+        const contract = await SurveyReward.deployed()
+        return contract
+      }
+      
+      const getTokenContract = async () => {
+        const response = await fetch("BouncebackTestToken.json")
+        const json = await response.json()
+        const SurveyReward = TruffleContact(json)
+        SurveyReward.setProvider(web3Provider)
+        const contract = await SurveyReward.deployed()
+        return contract
+      }
+      
+      const rewarder = await getSurveyRewardContract()
+      const token = await getTokenContract()
+      const surveyId = "0x63796470567535644e5473766f6755425446774e6f69"
+      const web3 = new Web3(App.web3Provider);
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];      
+
+      await rewarder.addSurveySubmission(surveyId, JSON.stringify(data), {from: account})
+      alert("Thank you. You'll receive your rewards soon.")
+
+      console.log(await token.balanceOf(account))
+      
       // console.log(this.inputFullNameRef.current.value)
       console.log("Final data is", data)
   }
