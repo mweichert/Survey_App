@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Survey App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a test project to prove competence in Solidity and Truffle, as requested by Bounce Back Digital.
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+After a survey submission is complete, 70 tokens are sent to the surveyor's wallet as a reward.
 
-### `npm start`
+## Implementation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Tested using Truffle's built-in version of Ganache.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+There are two smart contracts, one for the token, and the other for the rewards mechanism. This design was selected to achieve separation of concerns, a common practice in software engineering.
 
-### `npm test`
+Both contracts are developed in Solidity and inherit from OpenZepplin contracts for some security assurance.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+When the survey is submitted, the submission is stored as JSON in the rewards smart contract. There was an assumption made that a surveyor would only be rewarded for a single submission, and therefore uses the stored submission information to determine whether a submission was stored previously before sending the rewards. There was also an assumption that this stored data would be utilized later and hence the need for easy retrieval.
 
-### `npm run build`
+## Automated tests
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Available in the repo's test directory. There are several tests to assure that the rewards mechanism is working and secure. To test, run: `npm run test`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The React app was provided by Bounce Back Digital, aside from the wallet integration.
 
-### `npm run eject`
+To test, you'll need to start the development server using `npm start` and then open http://localhost:3000 to view it in the browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Your browser will need MetaMask installed and Gancahe configured and selected as a network.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Questions?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Please send an e-mail to mweichert at gmail dot com. Thanks!
